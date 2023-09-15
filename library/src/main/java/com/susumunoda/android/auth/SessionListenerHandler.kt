@@ -4,7 +4,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 class SessionListenerHandler(
-    repositories: List<SessionListener>,
+    listeners: List<SessionListener>,
     authController: AuthController,
     coroutineScope: CoroutineScope
 ) {
@@ -13,9 +13,9 @@ class SessionListenerHandler(
             authController.sessionFlow.collect { session ->
                 if (session != Session.UNKNOWN) {
                     if (session == Session.LOGGED_OUT) {
-                        repositories.forEach { it.onLogout() }
+                        listeners.forEach { it.onLogout() }
                     } else {
-                        repositories.forEach { it.onLogin(session.user.id) }
+                        listeners.forEach { it.onLogin(session.user.id) }
                     }
                 }
             }
