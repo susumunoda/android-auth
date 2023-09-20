@@ -1,4 +1,4 @@
-package com.susumunoda.android.auth
+package com.susumunoda.auth
 
 class User(val id: String) {
     companion object {

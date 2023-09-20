@@ -1,8 +1,8 @@
-package com.susumunoda.android.auth.mock
+package com.susumunoda.auth.mock
 
-import com.susumunoda.android.auth.AuthController
-import com.susumunoda.android.auth.Session
-import com.susumunoda.android.auth.User
+import com.susumunoda.auth.AuthController
+import com.susumunoda.auth.Session
+import com.susumunoda.auth.User
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update

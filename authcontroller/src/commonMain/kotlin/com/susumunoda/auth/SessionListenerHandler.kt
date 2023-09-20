@@ -1,4 +1,4 @@
-package com.susumunoda.android.auth
+package com.susumunoda.auth
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch

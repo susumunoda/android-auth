@@ -1,4 +1,4 @@
-package com.susumunoda.android.auth
+package com.susumunoda.auth
 
 class Session(val user: User, private val label: String = "") {
     companion object {

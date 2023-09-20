@@ -28,7 +28,7 @@ kotlin {
 }
 
 android {
-    namespace = "com.susumunoda.android.auth"
+    namespace = "com.susumunoda.auth"
     compileSdk = 34
 
     defaultConfig {
