@@ -6,5 +6,5 @@ interface AuthController {
     val sessionFlow: StateFlow<Session>
     suspend fun createUser(email: String, password: String): User
     suspend fun login(email: String, password: String): User
-    fun logout()
+    suspend fun logout()
 }

@@ -32,7 +32,7 @@ class MockAuthController(session: Session = Session.LOGGED_OUT) : AuthController
         return user
     }
 
-    override fun logout() {
+    override suspend fun logout() {
         _sessionFlow.update { Session.LOGGED_OUT }
     }
 }
