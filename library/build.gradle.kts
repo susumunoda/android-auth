@@ -1,20 +1,27 @@
 @Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
 plugins {
     alias(libs.plugins.androidLibrary)
-    alias(libs.plugins.kotlinAndroid)
+    kotlin("multiplatform")
     `maven-publish`
 }
 
-val releaseVariant = "release"
-publishing {
-    publications {
-        register<MavenPublication>(releaseVariant) {
-            groupId = "com.susumunoda"
-            artifactId = "android-auth"
-            version = "1.0"
+kotlin {
+    androidTarget {
+        publishLibraryVariants("release")
 
-            afterEvaluate {
-                from(components[releaseVariant])
+        compilations.all {
+            kotlinOptions {
+                jvmTarget = "17"
+            }
+        }
+    }
+
+    ios()
+
+    sourceSets {
+        val commonMain by getting {
+            dependencies {
+                implementation(libs.kotlinx.coroutines)
             }
         }
     }
@@ -26,7 +33,6 @@ android {
 
     defaultConfig {
         minSdk = 24
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
     }
@@ -44,23 +50,28 @@ android {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
-    kotlinOptions {
-        jvmTarget = "17"
-    }
-    publishing {
-        singleVariant(releaseVariant) {
-            withSourcesJar()
-            withJavadocJar()
-        }
-    }
 }
 
-dependencies {
+group = "com.susumunoda.auth"
+version = "1.0"
+val artifactIdOverride = "authcontroller"
 
-    implementation(libs.core.ktx)
-    implementation(libs.appcompat)
-    implementation(libs.material)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.test.ext.junit)
-    androidTestImplementation(libs.espresso.core)
+publishing {
+    publications.withType<MavenPublication> {
+        val publication = this
+        afterEvaluate {
+            val project = this
+            // In a single Gradle project setup, `artifactId` would default to the root project
+            // name, which would be reasonable to change. However, when the library is a module
+            // within a top-level project, `artifactId` defaults to the module's name (e.g. `lib`
+            // or `library`), which ideally we would not have to change. Therefore, we override it
+            // here to be the desired value, including the target-specific suffixes.
+            // See https://docs.gradle.org/current/userguide/publishing_maven.html#publishing_maven:deferred_configuration
+            artifactId = if (publication.name == "kotlinMultiplatform") {
+                artifactIdOverride
+            } else {
+                publication.artifactId.replaceFirst(project.name, artifactIdOverride)
+            }
+        }
+    }
 }
