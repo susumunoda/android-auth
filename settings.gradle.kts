@@ -15,4 +15,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "Android Auth"
 include(":app")
-include(":library")
+include(":authcontroller")

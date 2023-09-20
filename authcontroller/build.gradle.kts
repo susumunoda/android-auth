@@ -54,24 +54,3 @@ android {
 
 group = "com.susumunoda.auth"
 version = "1.0"
-val artifactIdOverride = "authcontroller"
-
-publishing {
-    publications.withType<MavenPublication> {
-        val publication = this
-        afterEvaluate {
-            val project = this
-            // In a single Gradle project setup, `artifactId` would default to the root project
-            // name, which would be reasonable to change. However, when the library is a module
-            // within a top-level project, `artifactId` defaults to the module's name (e.g. `lib`
-            // or `library`), which ideally we would not have to change. Therefore, we override it
-            // here to be the desired value, including the target-specific suffixes.
-            // See https://docs.gradle.org/current/userguide/publishing_maven.html#publishing_maven:deferred_configuration
-            artifactId = if (publication.name == "kotlinMultiplatform") {
-                artifactIdOverride
-            } else {
-                publication.artifactId.replaceFirst(project.name, artifactIdOverride)
-            }
-        }
-    }
-}
